@@ -184,6 +184,8 @@ class MortgageRates {
 	}
 
 	public function getParser($domain) {
+		// TODO: rework this to be a set of plugins
+		// rather than hard coded parser class instantiations
 		$parser = NULL;
 		switch($domain) {
 			case 'www.northernrock.co.uk':

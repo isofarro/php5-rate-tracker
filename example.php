@@ -66,8 +66,8 @@ $helper   = new MortgageRates();
 $rates    = array();
 
 foreach($providers as $key=>$provider) {
-	$htmlFile    = $htmlDir . $provider['file'];
-	$rate        = $helper->getRate($provider['url'], $htmlFile);
+	//$htmlFile    = $htmlDir . $provider['file'];
+	$rate        = $helper->getRate($provider['url'] /*, $htmlFile */);
 	$rates[$key] = $rate;
 	echo $rate, "\t - ", $provider['name'], "\n";
 }
