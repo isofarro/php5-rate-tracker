@@ -1,0 +1,3 @@
+
+# Ignore tilde suffixed filenames - Bluefish editing backups
+*~
