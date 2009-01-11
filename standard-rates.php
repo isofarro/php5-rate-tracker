@@ -222,6 +222,45 @@ class WoolwichParser implements MortgageRateParserInterface {
 
 
 class MortgageRates {
+	public $providers;
+	public $errorLog = array();
+	
+	public function setProviders($providers) {
+		$this->providers = $providers;
+	}
+	
+	public function getDailyRates() {
+		global $htmlDir;
+		
+		$rates = (object) NULL;
+		$rates->date = date('Y-m-d');
+		if (!empty($htmlDir)) {
+			$rates->isCachedData = 'true';
+		}
+		$rates->providers = array();
+
+		foreach($this->providers as $key=>$provider) {
+			if (empty($htmlDir)) {
+				# Use the real URL	
+				$rate        = $this->getRate($provider['url']);
+			} else {
+				# Use the offline cache
+				$htmlFile    = $htmlDir . $provider['file'];
+				$rate        = $this->getRate($provider['url'], $htmlFile);
+			}
+			
+			if (is_null($rate)) {
+				$this->logError('WARN', 
+					'Null Rate for Provider ' . $key . 
+					' at ' . $provider['url']
+				);
+			}
+			
+			$rates->providers[$key] = $rate;
+			echo $rate, "\t - ", $provider['name'], "\n";
+		}
+		return $rates;
+	}
 
 
 	public function getRate($url, $data=false) {
@@ -302,7 +341,8 @@ class MortgageRates {
 				$parser = new ChelseaParser();
 				break;
 			default:
-				echo "No parser for domain: $domain\n";
+				//echo "No parser for domain: $domain\n";
+				$this->logError("WARN", "No parser for domain: $domain");
 				break;
 		}
 		
@@ -311,6 +351,47 @@ class MortgageRates {
 		return $parser;
 	}
 
+	public function getErrors() {
+		return $this->errorLog;
+	}
+	
+	public function logError($level, $msg) {
+		$error = (object) NULL;
+		$error->timestamp = time();
+		$error->level     = $level;
+		$error->msg       = $msg;
+		
+		array_push($this->errorLog, $error);
+	}
+	
+	public function saveErrors($filePath) {
+		if (count($this->errorLog)>0) {
+			$dateKey = date('Y-m-d');
+			
+			$errorLogs = array();
+			
+			// Read in the error file if it exists
+			if (file_exists($filePath)) {
+				$ser = file_get_contents($filePath);
+				$errorLogs = unserialize($ser);
+			}
+			
+			if (empty($errorLogs[$dateKey])) {
+				// New error log for today
+				$errorLogs[$dateKey] = $this->errorLog;
+			} else {
+				// Append to today's existing errors
+				foreach($this->errorLog as $error) {
+					array_push($errorLogs[$dateKey], $error);
+				}
+			}
+			
+			// Write the error file back
+			$ser = serialize($errorLogs);
+			file_put_contents($filePath, $ser);
+			echo count($this->errorLog), " messages written to error log.\n";
+		}
+	}
 }
 
 
