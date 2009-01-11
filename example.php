@@ -3,7 +3,9 @@
 require_once 'simplehtmldom/simple_html_dom.php';
 require_once 'standard-rates.php';
 
-//$htmlDir = '/home/user/data/standard-rates/html-cache/';
+// Directory to look for pre-saved HTML documents for offline use
+// Comment out to retrieve the actual URL.
+$htmlDir = '/home/user/data/standard-rates/html-cache/';
 
 $providers = array(
 	'northern-rock' => array(
@@ -26,6 +28,7 @@ $providers = array(
 		'url'  => 'http://www.woolwich.co.uk/mortgages/compare-our-mortgages.html',
 		'file' => 'woolwich-compare-our-mortgages.html'
 	),
+//	//Commented out because of out of memory issues
 //	'cheltglos' => array(
 //		'name' => 'Cheltenham & Gloucester',
 //		'url'  => 'http://www.cheltglos.co.uk/mortgages/fixed-rates/index.html',
@@ -73,12 +76,6 @@ $providers = array(
 	)
 );
 
-/** Other providers:
-	* Halifax
-	* Chelsea Building Society
-	* RBS/Natwest
-**/
-
 echo "Standard variable mortgage rate\n";
 echo "===============================\n";
 
@@ -86,8 +83,14 @@ $helper   = new MortgageRates();
 $rates    = array();
 
 foreach($providers as $key=>$provider) {
-	//$htmlFile    = $htmlDir . $provider['file'];
-	$rate        = $helper->getRate($provider['url'] /*, $htmlFile*/ );
+	if (empty($htmlDir)) {
+		# Use the real URL	
+		$rate        = $helper->getRate($provider['url'] /*, $htmlFile*/ );
+	} else {
+		# Use the offline cache
+		$htmlFile    = $htmlDir . $provider['file'];
+		$rate        = $helper->getRate($provider['url'], $htmlFile);
+	}
 	$rates[$key] = $rate;
 	echo $rate, "\t - ", $provider['name'], "\n";
 }
