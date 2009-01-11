@@ -3,7 +3,7 @@
 require_once 'simplehtmldom/simple_html_dom.php';
 require_once 'standard-rates.php';
 
-//$htmlDir = '/home/user/data/standard-rates/html-cache/';
+$htmlDir = '/home/user/data/standard-rates/html-cache/';
 
 $providers = array(
 	'northern-rock' => array(
@@ -50,6 +50,26 @@ $providers = array(
 		'name' => 'First Direct',
 		'url'  => 'http://www.firstdirect.com/mortgages/rates.shtml',
 		'file' => 'firstdirect-fixed-rates.html'
+	),
+	'rbs' => array(
+		'name' => 'Royal Bank of Scotland',
+		'url'  => 'http://www.rbs.co.uk/personal/mortgages/g2/fixed-rate.ashx',
+		'file' => 'rbs-fixed-rate.html'
+	),
+	'natwest' => array(
+		'name' => 'Natwest',
+		'url'  => 'http://www.natwest.com/personal/mortgages/g3/fixed-rate.ashx',
+		'file' => 'natwest-fixed-rate.html'
+	),
+	'halifax' => array(
+		'name' => 'Halifax',
+		'url'  => 'http://www.halifax.co.uk/mortgages/2yearfixedswitch.asp',
+		'file' => 'halifax-2yearfixedswitch.html'
+	),
+	'chelsea' => array(
+		'name' => 'Chelsea',
+		'url'  => 'http://www.thechelsea.co.uk/mortgages/nb_product_intro.html',
+		'file' => 'chelsea-nb_product_intro.html'
 	)
 );
 
@@ -66,8 +86,8 @@ $helper   = new MortgageRates();
 $rates    = array();
 
 foreach($providers as $key=>$provider) {
-	//$htmlFile    = $htmlDir . $provider['file'];
-	$rate        = $helper->getRate($provider['url'] /*, $htmlFile */);
+	$htmlFile    = $htmlDir . $provider['file'];
+	$rate        = $helper->getRate($provider['url'] , $htmlFile );
 	$rates[$key] = $rate;
 	echo $rate, "\t - ", $provider['name'], "\n";
 }

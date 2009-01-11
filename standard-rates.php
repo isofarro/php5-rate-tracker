@@ -5,6 +5,77 @@ interface MortgageRateParserInterface {
 	public function extractRate($dom);
 }
 
+
+class RbsParser implements MortgageRateParserInterface {
+	public function extractRate($dom) {
+		//echo "RBS: extracting rate.\n";
+		$row = $dom->find('table.rates tr', 1);
+		//echo $row->plaintext;
+		$cell = $row->find('td', 2);
+		//echo $cell->plaintext;
+		if (preg_match('/(\d*\.\d*)%/', $cell->plaintext, $matches)) {
+			if (is_numeric($matches[1])) {
+				return $matches[1];
+			}
+		}
+		return NULL;
+	}
+}
+
+
+class NatwestParser implements MortgageRateParserInterface {
+	public function extractRate($dom) {
+		//echo "Natwest: extracting rate.\n";
+		$row = $dom->find('table#sectionsection1 tr ', 2);
+		//echo $row->plaintext;
+		$cell = $row->find('td', 3);
+		//echo $cell->plaintext;
+		if (preg_match('/^(\d*\.\d*)%/', $cell->plaintext, $matches)) {
+			if (is_numeric($matches[1])) {
+				return $matches[1];
+			}
+		}
+		return NULL;
+	}
+}
+
+class HalifaxParser implements MortgageRateParserInterface {
+	public function extractRate($dom) {
+		//echo "Halifax: extracting rate.\n";
+		$row = $dom->find('div.main table tr', 2);
+		//echo $row->plaintext;
+		$cell = $row->find('td', 3);
+		//echo $cell->plaintext;
+		if (preg_match('/(\d*\.\d*)%/', $cell->plaintext, $matches)) {
+			if (is_numeric($matches[1])) {
+				return $matches[1];
+			}
+		}
+		return NULL;
+	}
+}
+
+class ChelseaParser implements MortgageRateParserInterface {
+	public function extractRate($dom) {
+		//echo "Chelsea: extracting rate.\n";
+		$row = $dom->find('div.standard_table table tr', 2);
+		//echo $row->plaintext;
+		$cell = $row->find('td', 1);
+		//echo $cell->plaintext;
+		if (preg_match('/currently (\d*\.\d*)%/', $cell->plaintext, $matches)) {
+			if (is_numeric($matches[1])) {
+				return $matches[1];
+			}
+		}
+		return NULL;
+	}
+}
+
+
+
+
+
+
 class CheltenhamParser implements MortgageRateParserInterface {
 	public function extractRate($dom) {
 		//echo "Cheltenham: extracting rate.\n";
@@ -183,7 +254,7 @@ class MortgageRates {
 		return '-';
 	}
 
-	public function getParser($domain) {
+	public function getParser($domain) {	
 		// TODO: rework this to be a set of plugins
 		// rather than hard coded parser class instantiations
 		$parser = NULL;
@@ -214,6 +285,18 @@ class MortgageRates {
 				break;
 			case 'www.firstdirect.com':
 				$parser = new FirstDirectParser();
+				break;
+			case 'www.rbs.co.uk':
+				$parser = new RbsParser();
+				break;
+			case 'www.natwest.com':
+				$parser = new NatwestParser();
+				break;
+			case 'www.halifax.co.uk':
+				$parser = new HalifaxParser();
+				break;
+			case 'www.thechelsea.co.uk':
+				$parser = new ChelseaParser();
 				break;
 			default:
 				echo "No parser for domain: $domain\n";
