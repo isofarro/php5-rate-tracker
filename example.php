@@ -3,7 +3,7 @@
 require_once 'simplehtmldom/simple_html_dom.php';
 require_once 'standard-rates.php';
 
-$htmlDir = '/home/user/data/standard-rates/html-cache/';
+//$htmlDir = '/home/user/data/standard-rates/html-cache/';
 
 $providers = array(
 	'northern-rock' => array(
@@ -86,8 +86,8 @@ $helper   = new MortgageRates();
 $rates    = array();
 
 foreach($providers as $key=>$provider) {
-	$htmlFile    = $htmlDir . $provider['file'];
-	$rate        = $helper->getRate($provider['url'] , $htmlFile );
+	//$htmlFile    = $htmlDir . $provider['file'];
+	$rate        = $helper->getRate($provider['url'] /*, $htmlFile*/ );
 	$rates[$key] = $rate;
 	echo $rate, "\t - ", $provider['name'], "\n";
 }
