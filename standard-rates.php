@@ -287,13 +287,21 @@ class MortgageRates {
 			$dom = file_get_html($url);
 		}
 		
-		$parser = $this->getParser($domain);
-		
-		if ($parser) {
-			$rate   = $parser->extractRate($dom);
-			return $rate;
+		$rate = NULL;
+		if ($dom) {
+			$parser = $this->getParser($domain);
+			
+			if ($parser) {
+				$rate   = $parser->extractRate($dom);
+			} else {
+				$rate = '-';
+			}
+
+			$dom->clear();
+		} else {
+			$this->logError('ERROR', 'Could not obtain $url');
 		}
-		return '-';
+		return $rate;		
 	}
 
 	public function getParser($domain) {	

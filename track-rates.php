@@ -35,12 +35,12 @@ $providers = array(
 		'url'  => 'http://www.woolwich.co.uk/mortgages/compare-our-mortgages.html',
 		'file' => 'woolwich-compare-our-mortgages.html'
 	),
-//	//Commented out because of out of memory issues
-//	'cheltglos' => array(
-//		'name' => 'Cheltenham & Gloucester',
-//		'url'  => 'http://www.cheltglos.co.uk/mortgages/fixed-rates/index.html',
-//		'file' => 'cheltenham-fixed-rate-index.html'
-//	),
+	//Commented out because of out of memory issues
+	'cheltglos' => array(
+		'name' => 'Cheltenham & Gloucester',
+		'url'  => 'http://www.cheltglos.co.uk/mortgages/fixed-rates/index.html',
+		'file' => 'cheltenham-fixed-rate-index.html'
+	),
 	'abbey' => array(
 		'name' => 'Abbey',
 		'url'  => 'http://www.abbey.com/csgs/Satellite?c=GSProducto&cid=1127562795758&pagename=Abbey/GSProducto/GS_Producto',
