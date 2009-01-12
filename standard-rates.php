@@ -11,6 +11,36 @@ interface MortgageRateParserInterface {
 *
 ****************************************************************************/
 
+class BankOfEnglandParser implements MortgageRateParserInterface {
+	public function extractRate($dom) {
+		$pagedata = (object) NULL;
+		//echo "BoE: extracting rate.\n";
+		$row = $dom->find('div#firstbox table tr', 0);
+		//echo $row->plaintext;
+		$cell = $row->find('td', 2);
+		//echo '[', $cell->plaintext, ']',"\n";
+		
+		// Get the rate
+		if (preg_match('/^\s*(\d*\.\d*)%/', $cell->plaintext, $matches)) {
+			if (is_numeric($matches[1])) {
+				$pagedata->rate = $matches[1];
+			}
+		}
+		
+		// Get the next update date
+		if (preg_match('/(\d+)\s(\w+)\s\'(\d+)/', $cell->plaintext, $matches)) {
+				$date = date('Y-m-d', strtotime(
+						$matches[1] . ' ' . $matches[2] . ' 20' . $matches[3]
+					));
+				$pagedata->nextDate = $date;
+		}
+		
+		return $pagedata;
+	}
+}
+
+
+
 class AandLParser implements MortgageRateParserInterface {
 	public function extractRate($dom) {
 		//echo "AandL: extracting rate.\n";
@@ -229,6 +259,30 @@ class MortgageRates {
 		$this->providers = $providers;
 	}
 	
+	public function getBaseRate($url, $data=false) {
+		$rates = (object) NULL;
+		$rates->date = date('Y-m-d');
+
+		if ($data) {
+			$rates->isCachedData = 'true';
+			$rate = $this->getRate($url, $data);
+		
+		} else {
+			$rate = $this->getRate($url);		
+		}
+
+		if (is_null($rate)) {
+			$this->logError('WARN', 
+				'Null Rate for Bank of England at ' . $url
+			);
+		} else {
+			$rates->rate = $rate->rate;
+			$rates->nextUpdate = $rate->nextDate;
+			echo $rate->rate, "\t- Bank of England.\n";
+		}
+		return $rates;			
+	}
+
 	public function getDailyRates() {
 		global $htmlDir;
 		
@@ -242,11 +296,11 @@ class MortgageRates {
 		foreach($this->providers as $key=>$provider) {
 			if (empty($htmlDir)) {
 				# Use the real URL	
-				$rate        = $this->getRate($provider['url']);
+				$rate = $this->getRate($provider['url']);
 			} else {
 				# Use the offline cache
-				$htmlFile    = $htmlDir . $provider['file'];
-				$rate        = $this->getRate($provider['url'], $htmlFile);
+				$htmlFile = $htmlDir . $provider['file'];
+				$rate     = $this->getRate($provider['url'], $htmlFile);
 			}
 			
 			if (is_null($rate)) {
@@ -257,7 +311,7 @@ class MortgageRates {
 			}
 			
 			$rates->providers[$key] = $rate;
-			echo $rate, "\t - ", $provider['name'], "\n";
+			echo $rate, "\t- ", $provider['name'], "\n";
 		}
 		return $rates;
 	}
@@ -347,6 +401,9 @@ class MortgageRates {
 				break;
 			case 'www.thechelsea.co.uk':
 				$parser = new ChelseaParser();
+				break;
+			case 'www.bankofengland.co.uk':
+				$parser = new BankOfEnglandParser();
 				break;
 			default:
 				//echo "No parser for domain: $domain\n";
