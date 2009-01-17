@@ -25,17 +25,20 @@ if (file_exists($dataDir . $changeFile)) {
 }
 
 // Find the list of data files that need updating
-// TODO: sort order of files, oldest first
-$files = array(
-	'rates-2009-01-11.ser', 'rates-2009-01-12.ser'
-);
-
+echo "Changed lastupdated: ", $changes->lastUpdated, "\n";
+$files = array();
 if ($dirHandle = opendir($dataDir)) {
 	while (false != ($file = readdir($dirHandle))) {
-		echo "* $file\n";
+		if (preg_match('/^daily-(\d{4}-\d{2}-\d{2})/', $file, $matches)) {
+			if ($matches[1] > $changes->lastUpdated) {
+				//echo "* $file\n";
+				$files[] = $file;
+			}
+		}
 	}
 	closedir($dirHandle);
 }
+//print_r($files);
 
 
 // Read in each file and check for changes
@@ -86,6 +89,5 @@ if ($isChange) {
 } else {
 	echo "No rate changes.\n";
 }
-
 
 ?>
