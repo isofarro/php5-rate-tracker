@@ -19,7 +19,7 @@ $rates    = array();
 foreach($providers as $key=>$provider) {
 	if (empty($htmlDir)) {
 		# Use the real URL	
-		$rate        = $helper->getRate($provider['url'] /*, $htmlFile*/ );
+		$rate        = $helper->getRate($provider['url']);
 	} else {
 		# Use the offline cache
 		$htmlFile    = $htmlDir . $provider['file'];
