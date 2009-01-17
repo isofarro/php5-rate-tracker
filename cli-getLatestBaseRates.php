@@ -1,7 +1,7 @@
 <?php
 
 require_once 'simplehtmldom/simple_html_dom.php';
-require_once 'standard-rates.php';
+require_once 'MortgageRates.php';
 
 // Directory to look for pre-saved HTML documents for offline use
 // Comment out to retrieve the actual URL.
@@ -13,7 +13,7 @@ $dataDir = '/home/user/data/standard-rates/track/';
 // Error log file
 $errorFile = '/home/user/data/standard-rates/errorLog.ser';
 
-// List of mortgage providers
+// List of base rate providers
 $providers = array(
 	'bank-of-england' => array(
 		'name' => 'Bank of England',

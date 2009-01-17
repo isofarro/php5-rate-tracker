@@ -30,6 +30,14 @@ $files = array(
 	'rates-2009-01-11.ser', 'rates-2009-01-12.ser'
 );
 
+if ($dirHandle = opendir($dataDir)) {
+	while (false != ($file = readdir($dirHandle))) {
+		echo "* $file\n";
+	}
+	closedir($dirHandle);
+}
+
+
 // Read in each file and check for changes
 foreach ($files as $dailyFile) {
 	$ser        = file_get_contents($dataDir . $dailyFile);
