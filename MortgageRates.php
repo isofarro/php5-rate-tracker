@@ -60,7 +60,10 @@ class AandLParser implements MortgageRateParserInterface {
 class AbbeyParser implements MortgageRateParserInterface {
 	public function extractRate($dom) {
 		//echo "Abbey: extracting rate.\n";
-		$row = $dom->find('table.wordContent tbody tr', 3);
+		//$row = $dom->find('table.wordContent tbody tr', 3);
+		$table = $dom->find('div#top table', 1);
+		//echo $table->plaintext;
+		$row   = $table->find('tr', 1);
 		//echo $row->plaintext;
 		$cell = $row->find('td', 1);
 		//echo $cell->plaintext;

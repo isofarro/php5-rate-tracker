@@ -30,7 +30,7 @@ $providers = array(
 	),
 	'abbey' => array(
 		'name' => 'Abbey',
-		'url'  => 'http://www.abbey.com/csgs/Satellite?c=GSProducto&cid=1127562795758&pagename=Abbey/GSProducto/GS_Producto',
+		'url'  => 'http://www.abbey.com/csgs/Satellite?appID=abbey.internet.Abbeycom&c=Page&canal=CABBEYCOM&cid=1210610682091&empr=Abbeycom&leng=en_GB&pagename=Abbeycom%2FPage%2FWC_ACOM_TemplateG',
 		'file' => 'abbey-fixed-rate-Satellite.html'
 	),
 	'hsbc' => array(
