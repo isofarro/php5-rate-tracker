@@ -173,11 +173,14 @@ class NationwideParser implements MortgageRateParserInterface {
 	public function extractRate($dom) {
 		//echo "Nationwide: extracting rate.\n";
 		$row = $dom->find('div#panel0 table.radioTbl tbody tr', 2);
-		$cell = $row->find('td', 2);
-		//echo $cell->plaintext;
-		if (preg_match('/^(\d*\.\d*)%/', $cell->plaintext, $matches)) {
-			if (is_numeric($matches[1])) {
-				return $matches[1];
+		if(!empty($row->tag)) {
+			//echo $row->plaintext;
+			$cell = $row->find('td', 1);
+			//echo $cell->plaintext;
+			if (preg_match('/^(\d*\.\d*)%/', $cell->plaintext, $matches)) {
+				if (is_numeric($matches[1])) {
+					return $matches[1];
+				}
 			}
 		}
 		return NULL;
@@ -313,8 +316,13 @@ class MortgageRates {
 				);
 			}
 			
-			$rates->providers[$key] = $rate;
-			echo $rate, "\t- ", $provider['name'], "\n";
+			if (!is_null($rate)) {
+				$rates->providers[$key] = $rate;
+				echo $rate, "\t- ", $provider['name'], "\n";
+			} else {
+				echo "ERROR: Could not find rate for ", $provider['name'], "\n";
+				echo $provider['url'], "\n";
+			}
 		}
 		return $rates;
 	}

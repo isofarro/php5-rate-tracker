@@ -19,11 +19,11 @@ include_once 'provider-list.php';
 // Or bring in just one provider:
 /********
 $providers = array(
-	'abbey' => array(
-		'name' => 'Abbey',
-		'url'  => 'http://www.abbey.com/csgs/Satellite?appID=abbey.internet.Abbeycom&c=Page&canal=CABBEYCOM&cid=1210610682091&empr=Abbeycom&leng=en_GB&pagename=Abbeycom%2FPage%2FWC_ACOM_TemplateG',
-		'file' => 'abbey-fixed-rate-Satellite.html'
-	)
+	'nationwide' => array(
+		'name' => 'Nationwide',
+		'url'  => 'http://www.nationwide.co.uk/mortgage/remortgage/productsandrates/fixedinterest-rates.htm',
+		'file' => 'nationwide-variableinterest-rates.html'
+	),
 );
 //file_put_contents('tmp.html', file_get_contents($providers['abbey']['url'])); exit;
 ********/
@@ -36,6 +36,8 @@ $helper   = new MortgageRates();
 $helper->setProviders($providers);
 $rates    = $helper->getDailyRates();
 //print_r($rates);
+
+//exit;
 
 // Create the file to write daily rates to
 $rateFile = 'daily-' . $rates->date . '.ser';

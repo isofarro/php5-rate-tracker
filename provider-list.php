@@ -9,7 +9,7 @@ $providers = array(
 	),
 	'nationwide' => array(
 		'name' => 'Nationwide',
-		'url'  => 'http://www.nationwide.co.uk/mortgage/remortgage/productsandrates/variableinterest-rates.htm',
+		'url'  => 'http://www.nationwide.co.uk/mortgage/remortgage/productsandrates/fixedinterest-rates.htm',
 		'file' => 'nationwide-variableinterest-rates.html'
 	),
 	'lloydstsb' => array(
