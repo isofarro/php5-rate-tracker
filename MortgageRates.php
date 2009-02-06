@@ -16,25 +16,26 @@ class BankOfEnglandParser implements MortgageRateParserInterface {
 		$pagedata = (object) NULL;
 		//echo "BoE: extracting rate.\n";
 		$row = $dom->find('div#firstbox table tr', 0);
-		//echo $row->plaintext;
-		$cell = $row->find('td', 2);
-		//echo '[', $cell->plaintext, ']',"\n";
+		if (!empty($row->tag)) {
+			//echo $row->plaintext;
+			$cell = $row->find('td', 2);
+			//echo '[', $cell->plaintext, ']',"\n";
 		
-		// Get the rate
-		if (preg_match('/^\s*(\d*\.\d*)%/', $cell->plaintext, $matches)) {
-			if (is_numeric($matches[1])) {
-				$pagedata->rate = $matches[1];
+			// Get the rate
+			if (preg_match('/^\s*(\d*\.\d*)%/', $cell->plaintext, $matches)) {
+				if (is_numeric($matches[1])) {
+					$pagedata->rate = $matches[1];
+				}
 			}
-		}
 		
-		// Get the next update date
-		if (preg_match('/(\d+)\s(\w+)\s\'(\d+)/', $cell->plaintext, $matches)) {
-				$date = date('Y-m-d', strtotime(
-						$matches[1] . ' ' . $matches[2] . ' 20' . $matches[3]
-					));
-				$pagedata->nextDate = $date;
-		}
-		
+			// Get the next update date
+			if (preg_match('/(\d+)\s(\w+)\s\'(\d+)/', $cell->plaintext, $matches)) {
+					$date = date('Y-m-d', strtotime(
+							$matches[1] . ' ' . $matches[2] . ' 20' . $matches[3]
+						));
+					$pagedata->nextDate = $date;
+			}
+		}		
 		return $pagedata;
 	}
 }
@@ -45,12 +46,14 @@ class AandLParser implements MortgageRateParserInterface {
 	public function extractRate($dom) {
 		//echo "AandL: extracting rate.\n";
 		$row = $dom->find('div.mortgage-table table tr', 1);
-		//echo $row->plaintext;
-		$cell = $row->find('td', 2);
-		//echo $cell->plaintext;
-		if (preg_match('/^(\d*\.\d*)%/', $cell->plaintext, $matches)) {
-			if (is_numeric($matches[1])) {
-				return $matches[1];
+		if (!empty($row->tag)) {
+			//echo $row->plaintext;
+			$cell = $row->find('td', 2);
+			//echo $cell->plaintext;
+			if (preg_match('/^(\d*\.\d*)%/', $cell->plaintext, $matches)) {
+				if (is_numeric($matches[1])) {
+					return $matches[1];
+				}
 			}
 		}
 		return NULL;
@@ -62,14 +65,16 @@ class AbbeyParser implements MortgageRateParserInterface {
 		//echo "Abbey: extracting rate.\n";
 		//$row = $dom->find('table.wordContent tbody tr', 3);
 		$table = $dom->find('div#top table', 1);
-		//echo $table->plaintext;
-		$row   = $table->find('tr', 1);
-		//echo $row->plaintext;
-		$cell = $row->find('td', 1);
-		//echo $cell->plaintext;
-		if (preg_match('/(\d*\.\d*)%/', $cell->plaintext, $matches)) {
-			if (is_numeric($matches[1])) {
-				return $matches[1];
+		if (!empty($table->tag)) {
+			//echo $table->plaintext;
+			$row   = $table->find('tr', 1);
+			//echo $row->plaintext;
+			$cell = $row->find('td', 1);
+			//echo $cell->plaintext;
+			if (preg_match('/(\d*\.\d*)%/', $cell->plaintext, $matches)) {
+				if (is_numeric($matches[1])) {
+					return $matches[1];
+				}
 			}
 		}
 		return NULL;
@@ -80,12 +85,14 @@ class ChelseaParser implements MortgageRateParserInterface {
 	public function extractRate($dom) {
 		//echo "Chelsea: extracting rate.\n";
 		$row = $dom->find('div.standard_table table tr', 2);
-		//echo $row->plaintext;
-		$cell = $row->find('td', 1);
-		//echo $cell->plaintext;
-		if (preg_match('/currently (\d*\.\d*)%/', $cell->plaintext, $matches)) {
-			if (is_numeric($matches[1])) {
-				return $matches[1];
+		if (!empty($row->tag)) {
+			//echo $row->plaintext;
+			$cell = $row->find('td', 1);
+			//echo $cell->plaintext;
+			if (preg_match('/currently (\d*\.\d*)%/', $cell->plaintext, $matches)) {
+				if (is_numeric($matches[1])) {
+					return $matches[1];
+				}
 			}
 		}
 		return NULL;
@@ -96,10 +103,12 @@ class CheltenhamParser implements MortgageRateParserInterface {
 	public function extractRate($dom) {
 		//echo "Cheltenham: extracting rate.\n";
 		$row = $dom->find('td.svmr', 0);
-		//echo $row->plaintext;
-		if (preg_match('/^(\d*\.\d*)%/', $row->plaintext, $matches)) {
-			if (is_numeric($matches[1])) {
-				return $matches[1];
+		if (!empty($row->tag)) {
+			//echo $row->plaintext;
+			if (preg_match('/^(\d*\.\d*)%/', $row->plaintext, $matches)) {
+				if (is_numeric($matches[1])) {
+					return $matches[1];
+				}
 			}
 		}
 		return NULL;
@@ -110,12 +119,14 @@ class FirstDirectParser implements MortgageRateParserInterface {
 	public function extractRate($dom) {
 		//echo "FirstDirect: extracting rate.\n";
 		$row = $dom->find('table.tableStyleOne tr', 1);
-		//echo $row->plaintext;
-		$cell = $row->find('td', 0);
-		//echo $cell->plaintext;
-		if (preg_match('/currently (\d*\.\d*)%/', $cell->plaintext, $matches)) {
-			if (is_numeric($matches[1])) {
-				return $matches[1];
+		if (!empty($row->tag)) {
+			//echo $row->plaintext;
+			$cell = $row->find('td', 0);
+			//echo $cell->plaintext;
+			if (preg_match('/currently (\d*\.\d*)%/', $cell->plaintext, $matches)) {
+				if (is_numeric($matches[1])) {
+					return $matches[1];
+				}
 			}
 		}
 		return NULL;
@@ -126,12 +137,14 @@ class HalifaxParser implements MortgageRateParserInterface {
 	public function extractRate($dom) {
 		//echo "Halifax: extracting rate.\n";
 		$row = $dom->find('div.main table tr', 2);
-		//echo $row->plaintext;
-		$cell = $row->find('td', 3);
-		//echo $cell->plaintext;
-		if (preg_match('/(\d*\.\d*)%/', $cell->plaintext, $matches)) {
-			if (is_numeric($matches[1])) {
-				return $matches[1];
+		if (!empty($row->tag)) {
+			//echo $row->plaintext;
+			$cell = $row->find('td', 3);
+			//echo $cell->plaintext;
+			if (preg_match('/(\d*\.\d*)%/', $cell->plaintext, $matches)) {
+				if (is_numeric($matches[1])) {
+					return $matches[1];
+				}
 			}
 		}
 		return NULL;
@@ -142,12 +155,14 @@ class HsbcParser implements MortgageRateParserInterface {
 	public function extractRate($dom) {
 		//echo "HSBC: extracting rate.\n";
 		$row = $dom->find('table.savingsDataNew tbody tr', 1);
-		//echo $row->plaintext;
-		$cell = $row->find('td', 4);
-		//echo $cell->plaintext;
-		if (preg_match('/Currently (\d*\.\d*)%/', $cell->plaintext, $matches)) {
-			if (is_numeric($matches[1])) {
-				return $matches[1];
+		if (!empty($row->tag)) {
+			//echo $row->plaintext;
+			$cell = $row->find('td', 4);
+			//echo $cell->plaintext;
+			if (preg_match('/Currently (\d*\.\d*)%/', $cell->plaintext, $matches)) {
+				if (is_numeric($matches[1])) {
+					return $matches[1];
+				}
 			}
 		}
 		return NULL;
@@ -158,13 +173,15 @@ class LloydsTsbParser implements MortgageRateParserInterface {
 	public function extractRate($dom) {
 		//echo "Lloyds TSB: extracting rate.\n";
 		$row = $dom->find('div#datatable div.resultstable table.datatable tbody tr.light', 0);
-		$cell = $row->find('td', 1);
-		//echo $cell->plaintext;
-		if (preg_match('/^(\d*\.\d*)%/', $cell->plaintext, $matches)) {
-			if (is_numeric($matches[1])) {
-				return $matches[1];
+		if (!empty($row->tag)) {
+			$cell = $row->find('td', 1);
+			//echo $cell->plaintext;
+			if (preg_match('/^(\d*\.\d*)%/', $cell->plaintext, $matches)) {
+				if (is_numeric($matches[1])) {
+					return $matches[1];
+				}
 			}
-		}
+		}	
 		return NULL;
 	}
 }
@@ -191,12 +208,14 @@ class NatwestParser implements MortgageRateParserInterface {
 	public function extractRate($dom) {
 		//echo "Natwest: extracting rate.\n";
 		$row = $dom->find('table#sectionsection1 tr ', 2);
-		//echo $row->plaintext;
-		$cell = $row->find('td', 3);
-		//echo $cell->plaintext;
-		if (preg_match('/^(\d*\.\d*)%/', $cell->plaintext, $matches)) {
-			if (is_numeric($matches[1])) {
-				return $matches[1];
+		if (!empty($row->tag)) {
+			//echo $row->plaintext;
+			$cell = $row->find('td', 3);
+			//echo $cell->plaintext;
+			if (preg_match('/^(\d*\.\d*)%/', $cell->plaintext, $matches)) {
+				if (is_numeric($matches[1])) {
+					return $matches[1];
+				}
 			}
 		}
 		return NULL;
@@ -207,10 +226,12 @@ class NorthernRockParser implements MortgageRateParserInterface {
 	public function extractRate($dom) {
 		//echo "NorthernRock: extracting rate.\n";
 		$row  = $dom->find('table.tblMortgage tbody tr td', 3);
-		if (preg_match('/^(\d*\.\d*)% /', $row->plaintext, $matches)) {
-			//echo "Rate: $matches[1]\n";
-			if (is_numeric($matches[1])) {
-				return $matches[1];
+		if (!empty($row->tag)) {
+			if (preg_match('/^(\d*\.\d*)% /', $row->plaintext, $matches)) {
+				//echo "Rate: $matches[1]\n";
+				if (is_numeric($matches[1])) {
+					return $matches[1];
+				}
 			}
 		}
 		return NULL;
@@ -221,12 +242,14 @@ class RbsParser implements MortgageRateParserInterface {
 	public function extractRate($dom) {
 		//echo "RBS: extracting rate.\n";
 		$row = $dom->find('table.rates tr', 1);
-		//echo $row->plaintext;
-		$cell = $row->find('td', 2);
-		//echo $cell->plaintext;
-		if (preg_match('/(\d*\.\d*)%/', $cell->plaintext, $matches)) {
-			if (is_numeric($matches[1])) {
-				return $matches[1];
+		if (!empty($row->tag)) {
+			//echo $row->plaintext;
+			$cell = $row->find('td', 2);
+			//echo $cell->plaintext;
+			if (preg_match('/(\d*\.\d*)%/', $cell->plaintext, $matches)) {
+				if (is_numeric($matches[1])) {
+					return $matches[1];
+				}
 			}
 		}
 		return NULL;
@@ -237,12 +260,14 @@ class WoolwichParser implements MortgageRateParserInterface {
 	public function extractRate($dom) {
 		//echo "Woolwich: extracting rate.\n";
 		$row = $dom->find('div.three_column_container table.product_table tbody tr.lineone', 0);
-		//echo $row->plaintext;
-		$cell = $row->find('td', 2);
-		//echo $cell->plaintext;
-		if (preg_match('/currently (\d*\.\d*)%/', $cell->plaintext, $matches)) {
-			if (is_numeric($matches[1])) {
-				return $matches[1];
+		if (!empty($row->tag)) {
+			//echo $row->plaintext;
+			$cell = $row->find('td', 2);
+			//echo $cell->plaintext;
+			if (preg_match('/currently (\d*\.\d*)%/', $cell->plaintext, $matches)) {
+				if (is_numeric($matches[1])) {
+					return $matches[1];
+				}
 			}
 		}
 		return NULL;
