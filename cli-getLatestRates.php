@@ -19,10 +19,10 @@ include_once 'provider-list.php';
 // Or bring in just one provider:
 /********
 $providers = array(
-	'nationwide' => array(
-		'name' => 'Nationwide',
-		'url'  => 'http://www.nationwide.co.uk/mortgage/remortgage/productsandrates/fixedinterest-rates.htm',
-		'file' => 'nationwide-variableinterest-rates.html'
+	'abbey' => array(
+		'name' => 'Abbey',
+		'url'  => 'http://www.abbey.com/csgs/Satellite?appID=abbey.internet.Abbeycom&c=Page&canal=CABBEYCOM&cid=1210610682091&empr=Abbeycom&leng=en_GB&pagename=Abbeycom%2FPage%2FWC_ACOM_TemplateG',
+		'file' => 'abbey-fixed-rate-Satellite.html'
 	),
 );
 //file_put_contents('tmp.html', file_get_contents($providers['abbey']['url'])); exit;

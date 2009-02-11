@@ -64,7 +64,7 @@ class AbbeyParser implements MortgageRateParserInterface {
 	public function extractRate($dom) {
 		//echo "Abbey: extracting rate.\n";
 		//$row = $dom->find('table.wordContent tbody tr', 3);
-		$table = $dom->find('div#top table', 1);
+		$table = $dom->find('div.content_01 table', 1);
 		if (!empty($table->tag)) {
 			//echo $table->plaintext;
 			$row   = $table->find('tr', 1);
