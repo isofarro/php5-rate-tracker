@@ -212,7 +212,7 @@ class NatwestParser implements MortgageRateParserInterface {
 			//echo $row->plaintext;
 			$cell = $row->find('td', 3);
 			//echo $cell->plaintext;
-			if (preg_match('/^(\d*\.\d*)%/', $cell->plaintext, $matches)) {
+			if (preg_match('/^(\d*\.?\d*)%/', $cell->plaintext, $matches)) {
 				if (is_numeric($matches[1])) {
 					return $matches[1];
 				}
@@ -246,7 +246,7 @@ class RbsParser implements MortgageRateParserInterface {
 			//echo $row->plaintext;
 			$cell = $row->find('td', 2);
 			//echo $cell->plaintext;
-			if (preg_match('/(\d*\.\d*)%/', $cell->plaintext, $matches)) {
+			if (preg_match('/(\d*\.?\d*)%/', $cell->plaintext, $matches)) {
 				if (is_numeric($matches[1])) {
 					return $matches[1];
 				}

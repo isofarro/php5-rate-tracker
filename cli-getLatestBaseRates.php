@@ -5,7 +5,7 @@ require_once 'MortgageRates.php';
 
 // Directory to look for pre-saved HTML documents for offline use
 // Comment out to retrieve the actual URL.
-$htmlDir = '/home/user/data/standard-rates/html-cache/';
+//$htmlDir = '/home/user/data/standard-rates/html-cache/';
 
 // Directory to save the daily serialised object.
 $dataDir = '/home/user/data/standard-rates/track/';
@@ -27,7 +27,7 @@ echo "Daily Update: Bank of England base rate.\n";
 // Get the Daily mortgage rates
 $helper   = new MortgageRates();
 
-if ($htmlDir) {
+if (isset($htmlDir)) {
 	$htmlPage = $htmlDir . $providers['bank-of-england']['file'];
 	$rates    = $helper->getBaseRate($providers['bank-of-england']['url'], $htmlPage);
 } else {

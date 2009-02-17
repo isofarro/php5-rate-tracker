@@ -19,11 +19,16 @@ include_once 'provider-list.php';
 // Or bring in just one provider:
 /********
 $providers = array(
-	'abbey' => array(
-		'name' => 'Abbey',
-		'url'  => 'http://www.abbey.com/csgs/Satellite?appID=abbey.internet.Abbeycom&c=Page&canal=CABBEYCOM&cid=1210610682091&empr=Abbeycom&leng=en_GB&pagename=Abbeycom%2FPage%2FWC_ACOM_TemplateG',
-		'file' => 'abbey-fixed-rate-Satellite.html'
+	'rbs' => array(
+		'name' => 'Royal Bank of Scotland',
+		'url'  => 'http://www.rbs.co.uk/personal/mortgages/g2/fixed-rate.ashx',
+		'file' => 'rbs-fixed-rate.html'
 	),
+	'natwest' => array(
+		'name' => 'Natwest',
+		'url'  => 'http://www.natwest.com/personal/mortgages/g3/fixed-rate.ashx',
+		'file' => 'natwest-fixed-rate.html'
+	)
 );
 //file_put_contents('tmp.html', file_get_contents($providers['abbey']['url'])); exit;
 ********/
