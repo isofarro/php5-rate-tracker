@@ -136,7 +136,7 @@ class FirstDirectParser implements MortgageRateParserInterface {
 class HalifaxParser implements MortgageRateParserInterface {
 	public function extractRate($dom) {
 		//echo "Halifax: extracting rate.\n";
-		$row = $dom->find('div.main table tr', 2);
+		$row = $dom->find('div.bodycontent table tr', 2);
 		if (!empty($row->tag)) {
 			//echo $row->plaintext;
 			$cell = $row->find('td', 3);

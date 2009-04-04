@@ -61,7 +61,7 @@ $providers = array(
 	),
 	'halifax' => array(
 		'name' => 'Halifax',
-		'url'  => 'http://www.halifax.co.uk/mortgages/2yearfixedswitch.asp',
+		'url'  => 'http://www.halifax.co.uk/mortgages/buying-a-home-fixed-60LTV.asp',
 		'file' => 'halifax-2yearfixedswitch.html'
 	),
 	'chelsea' => array(

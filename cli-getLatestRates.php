@@ -19,15 +19,10 @@ include_once 'provider-list.php';
 // Or bring in just one provider:
 /********
 $providers = array(
-	'rbs' => array(
-		'name' => 'Royal Bank of Scotland',
-		'url'  => 'http://www.rbs.co.uk/personal/mortgages/g2/fixed-rate.ashx',
-		'file' => 'rbs-fixed-rate.html'
-	),
-	'natwest' => array(
-		'name' => 'Natwest',
-		'url'  => 'http://www.natwest.com/personal/mortgages/g3/fixed-rate.ashx',
-		'file' => 'natwest-fixed-rate.html'
+	'halifax' => array(
+		'name' => 'Halifax',
+		'url'  => 'http://www.halifax.co.uk/mortgages/buying-a-home-fixed-60LTV.asp',
+		'file' => 'halifax-2yearfixedswitch.html'
 	)
 );
 //file_put_contents('tmp.html', file_get_contents($providers['abbey']['url'])); exit;
